@@ -12,9 +12,11 @@ class Menu extends React.Component {
 
     render() {
         return (
-            <Navbar bg="dark" variant="dark">
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
            <img src="../../cubo.png" />
            <Navbar.Brand >Expense Tracker </Navbar.Brand>
+           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+           <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
                 <Nav.Link href="/main">Home</Nav.Link>
                 <Nav.Link href="/categories">Expense Categories</Nav.Link>
@@ -24,6 +26,7 @@ class Menu extends React.Component {
                 <Form inline>
                     <Button variant="primary" onClick={this.logOut}>Logout </Button>{' '}
                 </Form>    
+            </Navbar.Collapse>
             </Navbar.Collapse>
             </Navbar>
         )

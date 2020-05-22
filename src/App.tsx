@@ -13,15 +13,16 @@ class App extends React.Component {
     
       <div className="App" >
                 
-                <Navbar bg="dark" variant="dark">
+                <Navbar  bg="dark" variant="dark">
                     <Navbar.Brand href="#home">Not registered? </Navbar.Brand>
-                    <Button variant="success" href="/registration">Register here !</Button>{' '}
-                    <Navbar.Collapse className="justify-content-end">
-                        <Form inline>
-                            <Button variant="primary" active href="/login">Login</Button>{' '}
-                        </Form>    
-                    </Navbar.Collapse>
                     
+                        <Button variant="success" href="/registration">Register here !</Button>{' '}
+                        <Navbar.Collapse className="justify-content-end">
+                            <Form inline>
+                                <Button variant="primary" active href="/login">Login</Button>{' '}
+                            </Form>    
+                        </Navbar.Collapse>
+
                 </Navbar>
 
                 <Container>

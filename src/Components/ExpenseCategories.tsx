@@ -6,6 +6,7 @@ import { ResponsiveContainer } from 'recharts';
 import { Form } from 'react-bootstrap';
 import Menu from './Menu';
 import Constants from '../Constants/Constants';
+import { constants } from 'buffer';
 
 const expenseCategoriesStructure = {
     id: "",
@@ -82,7 +83,7 @@ class ExpenseCategories extends React.Component {
             return;
         }
 
-        axios.defaults.headers.common['Authorization']="Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBvZkswVV9aeVFFNGJrdEQtR1hsYiJ9.eyJpc3MiOiJodHRwczovL2F6YXZhbGEuYXV0aDAuY29tLyIsInN1YiI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2V0cmFja2VyaG4uY29tIiwiaWF0IjoxNTkwMDA4MDk3LCJleHAiOjE1OTAwOTQ0OTcsImF6cCI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.CvVA-9VTZ-vymdoNzEoiirz02OU5kojb_wgttlbHmcq9rzqKmsc1vAoN32m1Jg2MJQCD06ShXOUCuXBxdccE3qAvDujibz1LqJrLwy5OiC_YLomg6epccbgeC-_NhqKxdKIo1LdWzd77a0fD-_tUNcVpdOuVORUIRZM9u6_9guik_-l7Yc2nMBPzrDLLf_-ellPBAW9LZ7MPoaJRyHprOr6M125TA5wSMwrA1EWIF79kjzYTHJ7I36JIIwijBHfoILRZrawZ3uj4my0f91rW3Bmn49nU61t0WbI3xyZ-EeIqz1QwRsbvq9SUln9Qlx_sWJMh2VzeJSXWsYBw5-MPnQ"
+        axios.defaults.headers.common['Authorization']="Bearer " + Constants.accessToken;
         
         const expense_record = {
             id:this.state.id,
@@ -143,7 +144,7 @@ class ExpenseCategories extends React.Component {
     
         var choice=window.confirm("Are you sure to delete this expense category?");
 
-        axios.defaults.headers.common['Authorization']="Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBvZkswVV9aeVFFNGJrdEQtR1hsYiJ9.eyJpc3MiOiJodHRwczovL2F6YXZhbGEuYXV0aDAuY29tLyIsInN1YiI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2V0cmFja2VyaG4uY29tIiwiaWF0IjoxNTkwMDA4MDk3LCJleHAiOjE1OTAwOTQ0OTcsImF6cCI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.CvVA-9VTZ-vymdoNzEoiirz02OU5kojb_wgttlbHmcq9rzqKmsc1vAoN32m1Jg2MJQCD06ShXOUCuXBxdccE3qAvDujibz1LqJrLwy5OiC_YLomg6epccbgeC-_NhqKxdKIo1LdWzd77a0fD-_tUNcVpdOuVORUIRZM9u6_9guik_-l7Yc2nMBPzrDLLf_-ellPBAW9LZ7MPoaJRyHprOr6M125TA5wSMwrA1EWIF79kjzYTHJ7I36JIIwijBHfoILRZrawZ3uj4my0f91rW3Bmn49nU61t0WbI3xyZ-EeIqz1QwRsbvq9SUln9Qlx_sWJMh2VzeJSXWsYBw5-MPnQ"
+        axios.defaults.headers.common['Authorization']="Bearer " + Constants.accessToken;
         
         if (choice==true) {
             axios.delete(Constants.apiURL + "/api/expensecategories/" + id)
@@ -164,7 +165,7 @@ class ExpenseCategories extends React.Component {
     }
 
     updateExpenses () {
-        axios.defaults.headers.common['Authorization']="Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBvZkswVV9aeVFFNGJrdEQtR1hsYiJ9.eyJpc3MiOiJodHRwczovL2F6YXZhbGEuYXV0aDAuY29tLyIsInN1YiI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2V0cmFja2VyaG4uY29tIiwiaWF0IjoxNTkwMDA4MDk3LCJleHAiOjE1OTAwOTQ0OTcsImF6cCI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.CvVA-9VTZ-vymdoNzEoiirz02OU5kojb_wgttlbHmcq9rzqKmsc1vAoN32m1Jg2MJQCD06ShXOUCuXBxdccE3qAvDujibz1LqJrLwy5OiC_YLomg6epccbgeC-_NhqKxdKIo1LdWzd77a0fD-_tUNcVpdOuVORUIRZM9u6_9guik_-l7Yc2nMBPzrDLLf_-ellPBAW9LZ7MPoaJRyHprOr6M125TA5wSMwrA1EWIF79kjzYTHJ7I36JIIwijBHfoILRZrawZ3uj4my0f91rW3Bmn49nU61t0WbI3xyZ-EeIqz1QwRsbvq9SUln9Qlx_sWJMh2VzeJSXWsYBw5-MPnQ"
+        axios.defaults.headers.common['Authorization']="Bearer " + Constants.accessToken;
         axios.get(Constants.apiURL + "/api/expensecategories/" + this.state.userId)
             .then(res => {
 
@@ -212,7 +213,7 @@ class ExpenseCategories extends React.Component {
                 </button>
                 <br></br>
                 <br></br>
-                <Table striped bordered hover>
+                <Table striped bordered hover responsive>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -245,8 +246,8 @@ class ExpenseCategories extends React.Component {
                             
                                 
                                 <div className="form-group">
-                                    <label>Expense Categor Id</label>
-                                    <input required className="form-control" id="id" type="text" name="id" value={this.state.id} placeholder="Automatic number"  disabled/>
+                                    
+                                    <input required className="form-control" id="id" type="hidden" name="id" value={this.state.id} placeholder="Automatic number"  disabled/>
                                 </div>
                                 <div className="form-group">
                                     <label>Category Name</label>

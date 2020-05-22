@@ -1,7 +1,6 @@
 import React from 'react';
 import logo from '../logo.svg';
 import {  Navbar, Modal } from 'react-bootstrap';
-import Home from './Home'
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import history from '../history';
@@ -17,7 +16,8 @@ class Registration extends React.Component {
         name: '',
         email: '',
         password: '', 
-        confirmPassword: ''
+        confirmPassword: '',
+        loading: false
     }
 
     
@@ -30,35 +30,41 @@ class Registration extends React.Component {
     handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        
+        this.setState({loading: true});
+
         var confirmPassword = this.state.confirmPassword;
 
         if (this.state.name.length <=0) {
 
             alert("ERROR: Please enter your name");
+            this.setState({loading: false});
             return;
         }
 
         if (this.state.email.length <=0) {
 
+            this.setState({loading: false});
             alert("ERROR: Please enter your email address");
             return;
         }
         
         if (this.state.password.length <=0) {
 
+            this.setState({loading: false});
             alert("ERROR: Please enter your password");
             return;
         }
 
         if (this.state.confirmPassword.length <=0) {
 
+            this.setState({loading: false});
             alert("ERROR: Please enter your confirmation password");
             return;
         }
 
         if (this.state.password != this.state.confirmPassword) {
         
+            this.setState({loading: false});
             alert("ERROR: Passwords do not match!");
             return;
         }
@@ -70,7 +76,7 @@ class Registration extends React.Component {
             password: this.state.password   
         };
 
-        axios.defaults.headers.common['Authorization']="Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBvZkswVV9aeVFFNGJrdEQtR1hsYiJ9.eyJpc3MiOiJodHRwczovL2F6YXZhbGEuYXV0aDAuY29tLyIsInN1YiI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2V0cmFja2VyaG4uY29tIiwiaWF0IjoxNTkwMDA4MDk3LCJleHAiOjE1OTAwOTQ0OTcsImF6cCI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.CvVA-9VTZ-vymdoNzEoiirz02OU5kojb_wgttlbHmcq9rzqKmsc1vAoN32m1Jg2MJQCD06ShXOUCuXBxdccE3qAvDujibz1LqJrLwy5OiC_YLomg6epccbgeC-_NhqKxdKIo1LdWzd77a0fD-_tUNcVpdOuVORUIRZM9u6_9guik_-l7Yc2nMBPzrDLLf_-ellPBAW9LZ7MPoaJRyHprOr6M125TA5wSMwrA1EWIF79kjzYTHJ7I36JIIwijBHfoILRZrawZ3uj4my0f91rW3Bmn49nU61t0WbI3xyZ-EeIqz1QwRsbvq9SUln9Qlx_sWJMh2VzeJSXWsYBw5-MPnQ"
+        axios.defaults.headers.common['Authorization']="Bearer " + Constants.accessToken;
         axios.get(Constants.apiURL + "/api/validatedata/users/email/" + this.state.email)
             .then(res => {
                 
@@ -83,12 +89,14 @@ class Registration extends React.Component {
                         axios.post(Constants.apiURL+"/api/users",  registration )
                             .then(res2 => {
                         })
-                        alert("Registration Succesfull!");
-                        this.ShowHome();
+                        alert("Registration Succesfull!, Proceed to login.");
+                        this.setState({loading: false});
+                        this.ShowLogin();
 
                     }
                     else {
                         alert("ERROR: Email address is alrealdy taken");
+                        this.setState({loading: false});
                     }
                 }
                 
@@ -97,11 +105,18 @@ class Registration extends React.Component {
         
     }
 
+    ShowLogin() {
+        history.push("/login");
+    }
+
     ShowHome() {
         history.push("/");
     }
     
     render() {
+
+        const loading = this.state.loading;
+
         return (
             <div className="App">
 
@@ -145,7 +160,11 @@ class Registration extends React.Component {
                         </form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button type="submit" className="btn btn-success btn-block" onClick={this.handleSubmit}>Register</button>
+                        <button type="submit" className="btn btn-success btn-block" onClick={this.handleSubmit} disabled={loading}>
+                            {loading && (<i className="fa fa-refresh fa-spin" style={{ marginRight: "5px" }} />)}
+                            {loading && <span>Registering...</span>}
+                            {!loading && <span>Register</span>}
+                        </button>
                         <button className="btn btn-secondary btn-block" onClick={() => this.ShowHome()}>Cancel</button>
 
                     </Modal.Footer>

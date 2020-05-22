@@ -5,7 +5,6 @@ import { Router, Route, Switch, Link, NavLink } from "react-router-dom";
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Home from './Components/Home';
 import Login from './Components/Login';
 import Main from './Components/Main';
 import Registration from './Components/Registration';
@@ -18,7 +17,6 @@ const routing = (
   <Router history={history}>
     <div>
       <Route exact path="/" component={App} />
-      <Route path="/home" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/registration" component={Registration} />
       <Route path="/main" component={Main} />

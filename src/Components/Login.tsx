@@ -9,7 +9,8 @@ class Login extends React.Component {
     state = {
         id: "",
         email: "", 
-        password: ""
+        password: "",
+        loading: false
     }
     
     
@@ -26,14 +27,17 @@ class Login extends React.Component {
     handleSubmit =  (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-    
+        this.setState({loading:true});
+
         if (this.state.email.length <= 0) {
+            this.setState({loading:false});
             alert("ERROR: Please enter your email address");
             return;
 
         }
 
         if (this.state.password.length <= 0) {
+            this.setState({loading:false});
             alert("ERROR: Please enter your password");
             return;
 
@@ -50,7 +54,7 @@ class Login extends React.Component {
        }
 
        const config = {
-            headers: { Authorization: "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBvZkswVV9aeVFFNGJrdEQtR1hsYiJ9.eyJpc3MiOiJodHRwczovL2F6YXZhbGEuYXV0aDAuY29tLyIsInN1YiI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2V0cmFja2VyaG4uY29tIiwiaWF0IjoxNTkwMDA4MDk3LCJleHAiOjE1OTAwOTQ0OTcsImF6cCI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.CvVA-9VTZ-vymdoNzEoiirz02OU5kojb_wgttlbHmcq9rzqKmsc1vAoN32m1Jg2MJQCD06ShXOUCuXBxdccE3qAvDujibz1LqJrLwy5OiC_YLomg6epccbgeC-_NhqKxdKIo1LdWzd77a0fD-_tUNcVpdOuVORUIRZM9u6_9guik_-l7Yc2nMBPzrDLLf_-ellPBAW9LZ7MPoaJRyHprOr6M125TA5wSMwrA1EWIF79kjzYTHJ7I36JIIwijBHfoILRZrawZ3uj4my0f91rW3Bmn49nU61t0WbI3xyZ-EeIqz1QwRsbvq9SUln9Qlx_sWJMh2VzeJSXWsYBw5-MPnQ" }
+            headers: { Authorization: "Bearer " + Constants.accessToken }
         };
 
         const agent = new https.Agent({  
@@ -58,7 +62,7 @@ class Login extends React.Component {
           });    
         
           
-       axios.defaults.headers.common['Authorization']="Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBvZkswVV9aeVFFNGJrdEQtR1hsYiJ9.eyJpc3MiOiJodHRwczovL2F6YXZhbGEuYXV0aDAuY29tLyIsInN1YiI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2V0cmFja2VyaG4uY29tIiwiaWF0IjoxNTkwMDA4MDk3LCJleHAiOjE1OTAwOTQ0OTcsImF6cCI6IjNiZWY4ZmVUUHZZNGNoaU16RkRlRmNSMWdITk56V1JRIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.CvVA-9VTZ-vymdoNzEoiirz02OU5kojb_wgttlbHmcq9rzqKmsc1vAoN32m1Jg2MJQCD06ShXOUCuXBxdccE3qAvDujibz1LqJrLwy5OiC_YLomg6epccbgeC-_NhqKxdKIo1LdWzd77a0fD-_tUNcVpdOuVORUIRZM9u6_9guik_-l7Yc2nMBPzrDLLf_-ellPBAW9LZ7MPoaJRyHprOr6M125TA5wSMwrA1EWIF79kjzYTHJ7I36JIIwijBHfoILRZrawZ3uj4my0f91rW3Bmn49nU61t0WbI3xyZ-EeIqz1QwRsbvq9SUln9Qlx_sWJMh2VzeJSXWsYBw5-MPnQ"
+       axios.defaults.headers.common['Authorization']="Bearer " + Constants.accessToken;
        axios.post(Constants.apiURL + "/api/login", loginInfo)
             .then(res => {
                 if (res.status == 200) {
@@ -100,6 +104,7 @@ class Login extends React.Component {
                          
                     }                    
                     else {
+                        this.setState({loading:false});
                         alert("ERROR: Email address, or password, o combination of both are incorrect!");
                     }
                     
@@ -111,7 +116,10 @@ class Login extends React.Component {
         
     }
     render() {
+        const loading = this.state.loading;
+
         return (
+            
             <div className="App">
                 
                 <Navbar bg="dark" variant="dark">
@@ -140,7 +148,11 @@ class Login extends React.Component {
                                               
                     </Modal.Body>
                     <Modal.Footer>
-                        <button  className="btn btn-primary" onClick={this.handleSubmit}>Login</button>
+                        <button  className="btn btn-primary" onClick={this.handleSubmit}>
+                            {loading && (<i className="fa fa-refresh fa-spin" style={{ marginRight: "5px" }} />)}
+                            {loading && <span>Authenticating...</span>}
+                            {!loading && <span>Login</span>}
+                        </button>
                         <button className="btn btn-secondary" onClick={this.showHome}>Cancel</button>
 
                     </Modal.Footer>
